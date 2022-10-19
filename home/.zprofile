@@ -8,14 +8,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 . ~/.bash_aliases
 [ -f ~/.keys.sh ] && . ~/.keys.sh
 
-
 case "$-" in
     # only runs for interactive shells
     *i*)
-        source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
-        export PS1='\W $(kube_ps1) $ foo'
         source <(kubectl completion zsh 2>/dev/null)
-
         # needed for history to work in zsh+tmux
         bindkey '^R' history-incremental-search-backward
         ;;
