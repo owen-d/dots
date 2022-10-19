@@ -37,15 +37,6 @@ jsonnet-lint() {
     git diff --name-only | grep -E '(jsonnet|libsonnet)' | xargs -n 1 jsonnetfmt -i
 }
 
-pathappend() {
-    for ARG in "$@"
-    do
-        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-            PATH="${PATH:+"$PATH:"}$ARG"
-        fi
-    done
-}
-
 oom-finder() {
     # usage: oom-finder <namespace> <name-label>
     kc -n "${1}" get pod -l name="${2}" -o json | jq '.items[] | select(.status.containerStatuses[].lastState.terminated.reason == "OOMKilled")' | jq '.metadata.name'
