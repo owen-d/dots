@@ -1,0 +1,12 @@
+# This is Git's per-user configuration file.
+[user]
+      name = Owen Diehl
+      email = ow.diehl@gmail.com
+[alias]
+      hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+[init]
+      templatedir = ~/.config/git/templates
+[pull]
+      ff = only
+[url "git@github.com:"]
+      insteadOf = https://github.com/
