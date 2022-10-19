@@ -2,6 +2,7 @@ autoload -Uz compinit
 compinit
 
 . ~/.bash_aliases
+[ -f ~/.keys.sh ] && . ~/.keys.sh
 
 export HISTSIZE=20000
 export HISTFILESIZE=20000
