@@ -16,7 +16,7 @@ random_bytes () {
   head -c "${1:-16}" < /dev/urandom | xxd -p
 }
 
-repeat () {
+rept () {
   while :;
   do
       local t="$1"

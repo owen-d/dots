@@ -1,4 +1,5 @@
-shopt -s expand_aliases
+autoload -Uz compinit
+compinit
 
 . ~/.bash_aliases
 
@@ -23,7 +24,6 @@ case "$-" in
     *i*)
         source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
         export PS1='\W $(kube_ps1) $ '
-        source <(kubectl completion bash 2>/dev/null)
-        complete -F __start_kubectl kc 2>/dev/null
+        source <(kubectl completion zsh 2>/dev/null)
         ;;
 esac
