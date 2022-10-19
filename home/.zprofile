@@ -7,9 +7,12 @@ export HISTFILESIZE=20000
 
 export EDITOR=vim
 
-export GIT_SSH_COMMAND="ssh -i ~/.ssh/github_rsa"
+export GIT_SSH_COMMAND="ssh -i ~/.ssh/github_ed25519"
 
 export GOBIN="${HOME}/.local/go/bin"
+
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 pathappend "${HOME}/.local/bin" "${HOME}/.cargo/bin" "${GOBIN}"
 
