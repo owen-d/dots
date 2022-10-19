@@ -26,5 +26,8 @@ case "$-" in
         source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
         export PS1='\W $(kube_ps1) $ '
         source <(kubectl completion zsh 2>/dev/null)
+
+        # needed for history to work in zsh+tmux
+        bindkey '^R' history-incremental-search-backward
         ;;
 esac
