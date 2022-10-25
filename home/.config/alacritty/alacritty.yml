@@ -1,12 +1,13 @@
-window:
-  decorations: none
+# Hides top bar
+# window:
+  # decorations: none
 
 bell:
   animation: 'EaseOutExpo'
   duration: 0
 
 font:
-  size: 12
+  size: 13
 
 mouse:
   hide_when_typing: true

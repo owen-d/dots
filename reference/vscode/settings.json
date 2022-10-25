@@ -1,0 +1,133 @@
+{
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": true,
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "workbench.colorTheme": "Spacemacs - dark",
+    "vspacecode.bindingOverrides": [
+        {
+            "keys": [
+                "m",
+                "languageId:go",
+                "g",
+                "p"
+            ],
+            "name": "Goto definition overlay",
+            "type": "command",
+            "command": "editor.action.peekDefinition",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+        },
+        {
+            "keys": [
+                "m",
+                "languageId:go",
+                "g",
+                "f"
+            ],
+            "name": "hover definition",
+            "type": "command",
+            "command": "editor.action.showHover",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+        },
+        {
+            "keys": [
+                "m",
+                "languageId:go",
+                "g",
+                "g"
+            ],
+            "name": "Goto definition buffer",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor",
+            "type": "command",
+            "command": "editor.action.revealDefinition"
+        },
+        {
+            "keys": [
+                "m",
+                "languageId:go",
+                "g",
+                "G"
+            ],
+            "name": "Goto definition buffer",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor",
+            "type": "command",
+            "command": "editor.action.revealDefinitionAside"
+        },
+        {
+            // close test panel
+            "keys": [
+                "t",
+                "x"
+            ],
+            "name": "toggle panel",
+            "when": "editorTextFocus",
+            "type": "command",
+            "command": "workbench.action.togglePanel"
+        },
+        {
+            // toggle side bar
+            "keys": [
+                "t",
+                "s",
+            ],
+            "name": "toggle sidebar",
+            "when": "editorTextFocus",
+            "type": "command",
+            "command": "workbench.action.toggleSidebarVisibility"
+        }
+    ],
+    "explorer.confirmDragAndDrop": false,
+    "[go]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+            "source.fixAll": true
+        }
+    },
+    "go.formatTool": "goimports",
+    "go.lintTool": "golangci-lint",
+    "editor.inlineSuggest.enabled": true
+}

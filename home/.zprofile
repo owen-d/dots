@@ -14,5 +14,8 @@ case "$-" in
         source <(kubectl completion zsh 2>/dev/null)
         # needed for history to work in zsh+tmux
         bindkey '^R' history-incremental-search-backward
+        # restore emacs keymap after setting editor to vim
+        # https://stackoverflow.com/questions/23128353/zsh-shortcut-ctrl-a-not-working
+        bindkey -e
         ;;
 esac

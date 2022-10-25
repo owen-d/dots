@@ -10,3 +10,6 @@ export GOBIN="${HOME}/.local/go/bin"
 export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.cargo/bin:${GOBIN}"
 
 export GPG_TTY=$(tty)
+
+export GOBIN="${HOME}/.local/go/bin"
+export PATH="${PATH}:${GOBIN}"

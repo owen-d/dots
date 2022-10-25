@@ -1,0 +1,1 @@
+reference files are largely managed by the application rather than our config files. I'm putting them here mainly as a reference for what they look like. There's no guarantee they'll be in sync and it's mainly for disaster recovery starting points. Ugly, I know, but tis life.
