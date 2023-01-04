@@ -1,4 +1,5 @@
 source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
+source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 
 
 case "$SHELL" in

@@ -13,3 +13,5 @@ export GPG_TTY=$(tty)
 
 export GOBIN="${HOME}/.local/go/bin"
 export PATH="${PATH}:${GOBIN}"
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
