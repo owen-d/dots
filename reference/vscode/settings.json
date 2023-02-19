@@ -1,4 +1,5 @@
 {
+    "editor.inlayHints.enabled": "offUnlessPressed",
     "editor.wordWrap": "on",
     "editor.formatOnSave": true,
     "vim.easymotion": true,
@@ -49,10 +50,28 @@
     ],
     "workbench.colorTheme": "Spacemacs - dark",
     "vspacecode.bindingOverrides": [
+        /* Other keys of note (likely I've overrdden them):
+        c-l+J = toggle panel
+        c-l+P = new problem
+        c-l+n = (quickfix, showQuickFixes)
+        ctrl-option = inlay hints
+*/
         {
             "keys": [
                 "m",
                 "languageId:go",
+                "g",
+                "p"
+            ],
+            "name": "Goto definition overlay",
+            "type": "command",
+            "command": "editor.action.peekDefinition",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+        },
+        {
+            "keys": [
+                "m",
+                "languageId:rust",
                 "g",
                 "p"
             ],
@@ -76,6 +95,18 @@
         {
             "keys": [
                 "m",
+                "languageId:rust",
+                "g",
+                "f"
+            ],
+            "name": "hover definition",
+            "type": "command",
+            "command": "editor.action.showHover",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+        },
+        {
+            "keys": [
+                "m",
                 "languageId:go",
                 "g",
                 "g"
@@ -88,7 +119,31 @@
         {
             "keys": [
                 "m",
+                "languageId:rust",
+                "g",
+                "g"
+            ],
+            "name": "Goto definition buffer",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor",
+            "type": "command",
+            "command": "editor.action.revealDefinition"
+        },
+        {
+            "keys": [
+                "m",
                 "languageId:go",
+                "g",
+                "G"
+            ],
+            "name": "Goto definition buffer",
+            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor",
+            "type": "command",
+            "command": "editor.action.revealDefinitionAside"
+        },
+        {
+            "keys": [
+                "m",
+                "languageId:rust",
                 "g",
                 "G"
             ],
@@ -118,7 +173,7 @@
             "when": "editorTextFocus",
             "type": "command",
             "command": "workbench.action.toggleSidebarVisibility"
-        }
+        },
     ],
     "explorer.confirmDragAndDrop": false,
     "[go]": {
@@ -129,5 +184,11 @@
     },
     "go.formatTool": "goimports",
     "go.lintTool": "golangci-lint",
-    "editor.inlineSuggest.enabled": true
+    "editor.inlineSuggest.enabled": true,
+    "explorer.confirmDelete": false,
+    "editor.renderWhitespace": "none",
+    "go.toolsManagement.autoUpdate": true,
+    "githubPullRequests.fileListLayout": "flat",
+    "editor.tabSize": 2,
+    "githubPullRequests.pullBranch": "never"
 }
