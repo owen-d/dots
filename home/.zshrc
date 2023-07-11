@@ -16,3 +16,5 @@ which gimme &> /dev/null && . <(gimme 1.20) &> /dev/null
 export PNPM_HOME="/Users/owendiehl/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+setopt extended_glob
