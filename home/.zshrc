@@ -11,7 +11,7 @@ case "$SHELL" in
         ;;
     esac
 
-which gimme &> /dev/null && . <(gimme 1.20) &> /dev/null
+which gimme &> /dev/null && . <(gimme 1.21.3) &> /dev/null
 # pnpm
 export PNPM_HOME="/Users/owendiehl/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
