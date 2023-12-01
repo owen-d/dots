@@ -18,3 +18,6 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
 setopt extended_glob
+
+fpath+=~/.zfunc
+autoload -Uz compinit && compinit
