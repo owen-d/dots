@@ -21,3 +21,8 @@ setopt extended_glob
 
 fpath+=~/.zfunc
 autoload -Uz compinit && compinit
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
