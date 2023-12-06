@@ -48,12 +48,13 @@
             ]
         }
     ],
-    "workbench.colorTheme": "Spacemacs - dark",
+    "workbench.colorTheme": "Visual Studio Light",
     "vspacecode.bindingOverrides": [
         /* Other keys of note (likely I've overrdden them):
         c-l+J = toggle panel
         c-l+P = new problem
         c-l+n = (quickfix, showQuickFixes)
+        c-l+s = peek definition
         ctrl-option = inlay hints
 */
         {
