@@ -48,7 +48,7 @@
             ]
         }
     ],
-    "workbench.colorTheme": "Visual Studio Light",
+    "workbench.colorTheme": "Default Light+",
     "vspacecode.bindingOverrides": [
         /* Other keys of note (likely I've overrdden them -- they're now in the neighboring keybindings.json):
         c-l+J = toggle panel
@@ -191,5 +191,11 @@
     "go.toolsManagement.autoUpdate": true,
     "githubPullRequests.fileListLayout": "flat",
     "editor.tabSize": 2,
-    "githubPullRequests.pullBranch": "never"
+    "githubPullRequests.pullBranch": "never",
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    }
 }
