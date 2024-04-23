@@ -18,6 +18,9 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
 setopt extended_glob
+setopt share_history
+setopt hist_ignore_dups
+
 
 fpath+=~/.zfunc
 autoload -Uz compinit && compinit
