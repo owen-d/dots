@@ -247,5 +247,21 @@
     "key": "ctrl+l g shift+g",
     "command": "editor.action.revealDefinitionAside",
     "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  // Ctrl+l+c prefix
+  {
+    "key": "ctrl+l c c",
+    "command": "claudette.cursor",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+l c r",
+    "command": "claudette.refactor",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+l c f",
+    "command": "claudette.fix",
+    "when": "editorTextFocus"
   }
 ]
