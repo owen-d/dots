@@ -1,5 +1,6 @@
 // Place your key bindings in this file to override the defaults
 [
+  // Space prefix
   {
     "key": "space",
     "command": "vspacecode.space",
@@ -10,6 +11,7 @@
     "command": "vspacecode.space",
     "when": "sideBarFocus && !inputFocus && !whichkeyActive"
   },
+  // Tab prefix
   {
     "key": "tab",
     "command": "extension.vim_tab",
@@ -20,6 +22,7 @@
     "command": "-extension.vim_tab",
     "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'"
   },
+  // Single key prefixes (x, k, -, v, y)
   {
     "key": "x",
     "command": "magit.discard-at-point",
@@ -39,6 +42,16 @@
     "command": "-magit.reverse-at-point"
   },
   {
+    "key": "y",
+    "command": "-magit.show-refs"
+  },
+  {
+    "key": "y",
+    "command": "vspacecode.showMagitRefMenu",
+    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode == 'Normal'"
+  },
+  // Shift prefix
+  {
     "key": "shift+-",
     "command": "magit.reverting",
     "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
@@ -56,23 +69,7 @@
     "key": "shift+x",
     "command": "-magit.resetting"
   },
-  {
-    "key": "x",
-    "command": "-magit.reset-mixed"
-  },
-  {
-    "key": "ctrl+u x",
-    "command": "-magit.reset-hard"
-  },
-  {
-    "key": "y",
-    "command": "-magit.show-refs"
-  },
-  {
-    "key": "y",
-    "command": "vspacecode.showMagitRefMenu",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode == 'Normal'"
-  },
+  // Ctrl prefix
   {
     "key": "ctrl+j",
     "command": "workbench.action.quickOpenSelectNext",
@@ -133,22 +130,66 @@
     "command": "file-browser.stepIn",
     "when": "inFileBrowser"
   },
+  // Ctrl+u prefix
   {
-    "key": "ctrl+l j",
-    "command": "workbench.action.togglePanel"
+    "key": "ctrl+u x",
+    "command": "-magit.reset-hard"
   },
+  // Cmd prefix
   {
     "key": "cmd+j",
     "command": "-workbench.action.togglePanel"
   },
   {
-    "key": "ctrl+l p",
-    "command": "editor.action.marker.next",
-    "when": "editorFocus"
+    "key": "cmd+.",
+    "command": "-workbench.action.terminal.showQuickFixes",
+    "when": "terminalFocus"
   },
+  {
+    "key": "cmd+.",
+    "command": "-editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+  },
+  // Cmd+k prefix
+  {
+    "key": "cmd+k cmd+i",
+    "command": "-editor.debug.action.showDebugHover",
+    "when": "editorTextFocus && inDebugMode"
+  },
+  {
+    "key": "cmd+k cmd+i",
+    "command": "-editor.action.showHover",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+k cmd+i",
+    "command": "-workbench.action.terminal.focusHover",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalIsOpen || terminalFocus && terminalProcessSupported || terminalHasBeenCreated && terminalTabsFocus || terminalIsOpen && terminalTabsFocus || terminalProcessSupported && terminalTabsFocus"
+  },
+  {
+    "key": "cmd+k cmd+i",
+    "command": "-workbench.action.showTreeHover",
+    "when": "customTreeView && listFocus && !inputFocus"
+  },
+  // Alt prefix
   {
     "key": "alt+f8",
     "command": "-editor.action.marker.next",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+f12",
+    "command": "-editor.action.peekDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  // Ctrl+l prefix
+  {
+    "key": "ctrl+l j",
+    "command": "workbench.action.togglePanel"
+  },
+  {
+    "key": "ctrl+l p",
+    "command": "editor.action.marker.next",
     "when": "editorFocus"
   },
   {
@@ -157,18 +198,8 @@
     "when": "terminalFocus"
   },
   {
-    "key": "cmd+.",
-    "command": "-workbench.action.terminal.showQuickFixes",
-    "when": "terminalFocus"
-  },
-  {
     "key": "ctrl+l n",
     "command": "editor.action.quickFix",
-    "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
-  },
-  {
-    "key": "cmd+.",
-    "command": "-editor.action.quickFix",
     "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
   },
   {
@@ -177,18 +208,8 @@
     "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
   },
   {
-    "key": "alt+f12",
-    "command": "-editor.action.peekDefinition",
-    "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
-  },
-  {
     "key": "ctrl+l f",
     "command": "editor.debug.action.showDebugHover",
-    "when": "editorTextFocus && inDebugMode"
-  },
-  {
-    "key": "cmd+k cmd+i",
-    "command": "-editor.debug.action.showDebugHover",
     "when": "editorTextFocus && inDebugMode"
   },
   {
@@ -197,18 +218,8 @@
     "when": "editorTextFocus"
   },
   {
-    "key": "cmd+k cmd+i",
-    "command": "-editor.action.showHover",
-    "when": "editorTextFocus"
-  },
-  {
     "key": "ctrl+l f",
     "command": "workbench.action.terminal.focusHover",
-    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalIsOpen || terminalFocus && terminalProcessSupported || terminalHasBeenCreated && terminalTabsFocus || terminalIsOpen && terminalTabsFocus || terminalProcessSupported && terminalTabsFocus"
-  },
-  {
-    "key": "cmd+k cmd+i",
-    "command": "-workbench.action.terminal.focusHover",
     "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalIsOpen || terminalFocus && terminalProcessSupported || terminalHasBeenCreated && terminalTabsFocus || terminalIsOpen && terminalTabsFocus || terminalProcessSupported && terminalTabsFocus"
   },
   {
@@ -216,9 +227,25 @@
     "command": "workbench.action.showTreeHover",
     "when": "customTreeView && listFocus && !inputFocus"
   },
+  // Ctrl+l+g prefix
   {
-    "key": "cmd+k cmd+i",
-    "command": "-workbench.action.showTreeHover",
-    "when": "customTreeView && listFocus && !inputFocus"
+    "key": "ctrl+l g p",
+    "command": "editor.action.peekDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "key": "ctrl+l g f",
+    "command": "editor.action.showHover",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "key": "ctrl+l g g",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "ctrl+l g shift+g",
+    "command": "editor.action.revealDefinitionAside",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
   }
 ]
