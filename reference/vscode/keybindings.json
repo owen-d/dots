@@ -257,21 +257,6 @@
     "key": "ctrl+l g i",
     "command": "editor.action.peekImplementation",
     "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-  },
-  // Ctrl+l+c prefix
-  {
-    "key": "ctrl+l c c",
-    "command": "claudette.cursor",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+l c r",
-    "command": "claudette.refactor",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+l c f",
-    "command": "claudette.fix",
-    "when": "editorTextFocus"
   }
+  // Ctrl+l+c prefix is handled by the `claudette` extension
 ]
