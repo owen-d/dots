@@ -48,9 +48,9 @@
             ]
         }
     ],
-    "workbench.colorTheme": "Default Light+",
+    "workbench.colorTheme": "Spacemacs - light",
     "vspacecode.bindingOverrides": [
-        /* Other keys of note (likely I've overrdden them -- they're now in the neighboring keybindings.json):
+        /* Other keys of note (likely I've overrdden them):
         c-l+J = toggle panel
         c-l+P = new problem
         c-l+n = (quickfix, showQuickFixes)
@@ -179,11 +179,14 @@
     "explorer.confirmDragAndDrop": false,
     "[go]": {
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true,
-            "source.fixAll": true
+            "source.organizeImports": "explicit",
+            "source.fixAll": "explicit"
         }
     },
     "go.formatTool": "goimports",
+    "go.testFlags": [
+        // "-race"
+    ],
     "go.lintTool": "golangci-lint",
     "editor.inlineSuggest.enabled": true,
     "explorer.confirmDelete": false,
@@ -195,7 +198,14 @@
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": "explicit"
         }
-    }
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[typescript][javascript]": {
+        "editor.acceptSuggestionOnCommitCharacter": false,
+    },
 }
