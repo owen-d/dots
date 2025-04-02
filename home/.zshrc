@@ -16,6 +16,8 @@ export PNPM_HOME="/Users/owendiehl/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
+export PATH=~/.npm-global/bin:$PATH
+
 setopt extended_glob
 setopt share_history
 setopt hist_ignore_dups
@@ -28,3 +30,5 @@ autoload -Uz compinit && compinit
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+# WarpStream
+export PATH="/Users/owendiehl/.warpstream:$PATH"
