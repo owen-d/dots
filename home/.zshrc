@@ -32,7 +32,12 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 # WarpStream
 export PATH="/Users/owendiehl/.warpstream:$PATH"
+
+# ---- Completion setup ----
+# First, replace all instances of fpath and compinit with a clean setup
+# Completion setup
+fpath=(~/.zsh_completions ~/.zfunc $fpath)
+autoload -Uz compinit && compinit
+
+# Enable completion rehashing
 zstyle ':completion:*' rehash true
-# Ensure Cargo binaries are included in command completion
-# You will need to restart your shell or run 'source ~/.zshrc' for changes to take effect
-fpath=(~/.zsh_completions $fpath)
