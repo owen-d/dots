@@ -35,3 +35,4 @@ export PATH="/Users/owendiehl/.warpstream:$PATH"
 zstyle ':completion:*' rehash true
 # Ensure Cargo binaries are included in command completion
 # You will need to restart your shell or run 'source ~/.zshrc' for changes to take effect
+fpath=(~/.zsh_completions $fpath)
