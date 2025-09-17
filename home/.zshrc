@@ -41,3 +41,4 @@ autoload -Uz compinit && compinit
 
 # Enable completion rehashing
 zstyle ':completion:*' rehash true
+export PATH="$HOME/.local/bin:$PATH"
