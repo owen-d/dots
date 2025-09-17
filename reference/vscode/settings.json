@@ -195,6 +195,7 @@
     "githubPullRequests.fileListLayout": "flat",
     "editor.tabSize": 2,
     "githubPullRequests.pullBranch": "never",
+    "python.languageServer": "None",
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.codeActionsOnSave": {
