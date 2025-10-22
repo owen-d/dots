@@ -42,3 +42,6 @@ autoload -Uz compinit && compinit
 # Enable completion rehashing
 zstyle ':completion:*' rehash true
 export PATH="$HOME/.local/bin:$PATH"
+
+# fnm (fast node manager)
+eval "$(fnm env --use-on-cd)"
