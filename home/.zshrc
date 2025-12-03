@@ -26,13 +26,6 @@ setopt hist_ignore_dups
 fpath+=~/.zfunc
 autoload -Uz compinit && compinit
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-# WarpStream
-export PATH="/Users/owendiehl/.warpstream:$PATH"
-
 # ---- Completion setup ----
 # First, replace all instances of fpath and compinit with a clean setup
 # Completion setup
@@ -42,6 +35,3 @@ autoload -Uz compinit && compinit
 # Enable completion rehashing
 zstyle ':completion:*' rehash true
 export PATH="$HOME/.local/bin:$PATH"
-
-# fnm (fast node manager)
-eval "$(fnm env --use-on-cd)"
