@@ -52,17 +52,15 @@ tk() {
 
 # Function to manage Git worktrees interactively (external directory structure, corrected exit path)
 worktree() {
-  # Determine the common .git directory path
-  local common_git_dir
-  common_git_dir=$(git rev-parse --git-common-dir 2>/dev/null)
-  if [[ -z "$common_git_dir" ]]; then
+  # Determine the main repository root path (works from main repo or any worktree)
+  local main_repo_root_path
+  main_repo_root_path=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)
+  if [[ -z "$main_repo_root_path" ]]; then
     echo "System Alert: Operation must be performed within a Git repository or its worktree." >&2
     return 1
   fi
-
-  # Determine the main repository root path from the common git directory
-  local main_repo_root_path
-  main_repo_root_path=$(dirname "$common_git_dir")
+  # --git-common-dir returns the .git directory, so get its parent
+  main_repo_root_path=$(dirname "$main_repo_root_path")
 
   # Derive repository name and parent directory from the main repo root
   local repo_name
@@ -73,7 +71,8 @@ worktree() {
 
   # Simplified main branch detection (relative to the main repo context)
   local main_branch
-  if git --git-dir="$common_git_dir" --work-tree="$main_repo_root_path" show-ref --verify --quiet refs/heads/main; then
+  local git_dir="${main_repo_root_path}/.git"
+  if git --git-dir="$git_dir" --work-tree="$main_repo_root_path" show-ref --verify --quiet refs/heads/main; then
       main_branch="main"
   else
       main_branch="master" # Assumes master if main doesn't exist
@@ -88,17 +87,18 @@ worktree() {
       echo "Navigating to existing worktree: $target_path"
       cd "$target_path" || return 1
     else
-      # Create new worktree
+      # Create new worktree with a new branch based on selected source
       echo "Worktree '$target_name' not found at expected location. Creating..."
       local branch_choice
       # List branches from the main repository context
-      branch_choice=$(git --git-dir="$common_git_dir" --work-tree="$main_repo_root_path" branch --format='%(refname:short)' | fzf --height 15% --reverse --prompt="Select source branch for '$target_name': ")
+      branch_choice=$(git --git-dir="$git_dir" --work-tree="$main_repo_root_path" branch --format='%(refname:short)' | fzf --height 15% --reverse --prompt="Select source branch for '$target_name': ")
       if [[ -n "$branch_choice" ]]; then
         # Ensure the base directory exists
         mkdir -p "$worktree_base_dir" || { echo "System Alert: Failed to create base directory $worktree_base_dir" >&2; return 1; }
-        echo "Executing: git worktree add \"$target_path\" \"$branch_choice\""
+        # Create worktree with a new branch (-b) based on the selected source branch
+        echo "Executing: git worktree add -b \"$target_name\" \"$target_path\" \"$branch_choice\""
         # Run git worktree add from the main repo context for consistency
-        if git --git-dir="$common_git_dir" --work-tree="$main_repo_root_path" worktree add "$target_path" "$branch_choice"; then
+        if git --git-dir="$git_dir" --work-tree="$main_repo_root_path" worktree add -b "$target_name" "$target_path" "$branch_choice"; then
            echo "Worktree created. Navigating to $target_path"
            cd "$target_path" || return 1
         else
