@@ -148,3 +148,87 @@ worktree() {
   fi
   return 0
 }
+
+# Function to merge a worktree branch into a target branch and clean up
+worktree-accept() {
+  local branch="$1"
+  local merge_target="${2:-main}"
+
+  if [[ -z "$branch" ]]; then
+    echo "Usage: worktree-accept <branch> [<merge_target>]" >&2
+    echo "  <branch>       - The worktree branch to merge and remove" >&2
+    echo "  <merge_target> - The branch to merge into (default: main)" >&2
+    return 1
+  fi
+
+  # Determine the main repository root path (works from main repo or any worktree)
+  local main_repo_root_path
+  main_repo_root_path=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)
+  if [[ -z "$main_repo_root_path" ]]; then
+    echo "Error: Operation must be performed within a Git repository or its worktree." >&2
+    return 1
+  fi
+  # --git-common-dir returns the .git directory, so get its parent
+  main_repo_root_path=$(dirname "$main_repo_root_path")
+
+  # Derive repository name and parent directory from the main repo root
+  local repo_name
+  repo_name=$(basename "$main_repo_root_path")
+  local parent_dir
+  parent_dir=$(dirname "$main_repo_root_path")
+  local worktree_base_dir="${parent_dir}/${repo_name}.worktrees"
+  local worktree_path="${worktree_base_dir}/${branch}"
+  local git_dir="${main_repo_root_path}/.git"
+
+  # Verify the branch exists
+  if ! git --git-dir="$git_dir" --work-tree="$main_repo_root_path" show-ref --verify --quiet "refs/heads/$branch"; then
+    echo "Error: Branch '$branch' does not exist." >&2
+    return 1
+  fi
+
+  # Verify the merge target exists
+  if ! git --git-dir="$git_dir" --work-tree="$main_repo_root_path" show-ref --verify --quiet "refs/heads/$merge_target"; then
+    echo "Error: Merge target branch '$merge_target' does not exist." >&2
+    return 1
+  fi
+
+  # Go to main repo and checkout merge target
+  echo "Switching to '$merge_target' in main repository..."
+  cd "$main_repo_root_path" || { echo "Error: Failed to change to main repository directory." >&2; return 1; }
+
+  if ! git switch "$merge_target"; then
+    echo "Error: Failed to switch to '$merge_target'." >&2
+    return 1
+  fi
+
+  # Merge the branch
+  echo "Merging '$branch' into '$merge_target'..."
+  if ! git merge "$branch"; then
+    echo "Error: Merge failed. Please resolve conflicts and try again." >&2
+    return 1
+  fi
+  echo "Merge successful."
+
+  # Remove the worktree if it exists
+  if git worktree list --porcelain | grep "^worktree " | cut -d ' ' -f 2- | grep -q "^${worktree_path}$"; then
+    echo "Cleaning up worktree at '$worktree_path'..."
+    if ! git worktree remove "$worktree_path"; then
+      echo "Error: Failed to remove worktree. You may need to remove it manually." >&2
+      return 1
+    fi
+    echo "Worktree cleanup successful."
+  else
+    echo "No worktree found at '$worktree_path', skipping worktree cleanup."
+  fi
+
+  # Delete the branch
+  echo "Removing merged branch '$branch'..."
+  if ! git branch -d "$branch"; then
+    echo "Error: Failed to delete branch '$branch'." >&2
+    return 1
+  fi
+  echo "Branch '$branch' removed successfully."
+
+  echo "Done! '$branch' has been merged into '$merge_target' and cleaned up."
+  return 0
+}
