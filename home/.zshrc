@@ -69,3 +69,5 @@ zstyle ':completion:*' rehash true
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

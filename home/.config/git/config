@@ -6,6 +6,7 @@
       hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 [init]
       templatedir = ~/.config/git/templates
+	defaultBranch = main
 [pull]
       ff = only
 [url "git@github.com:"]
