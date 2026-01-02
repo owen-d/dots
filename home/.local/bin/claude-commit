@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Generate commit messages using Claude CLI
+# Reads prompt from stdin, outputs commit message to stdout
+
+set -euo pipefail
+
+prompt=$(cat)
+claude -p --model haiku "$prompt"

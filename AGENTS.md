@@ -7,6 +7,9 @@ Personal dotfiles for Apple Silicon MacBook Pro.
 ```
 dots/
 ├── home/                    # Symlinked to ~/ via setup.sh
+│   ├── .bash_functions.d/   # Modular shell functions (one file per domain)
+│   │   ├── docker.sh        # Docker utilities
+│   │   └── kubernetes.sh    # Kubernetes utilities
 │   ├── .config/
 │   │   ├── alacritty/       # Terminal emulator config
 │   │   ├── git/             # Git config (user, aliases, defaults)
@@ -14,7 +17,7 @@ dots/
 │   ├── .zshrc               # Shell prompt, completions, history
 │   ├── .zprofile            # PATH, tool init, interactive shell setup
 │   ├── .zshenv              # Environment variables (EDITOR, GOBIN, etc.)
-│   ├── .bash_aliases        # Aliases and shell functions
+│   ├── .bash_aliases        # Aliases, small functions, and .bash_functions.d loader
 │   ├── .tmux.conf           # Tmux with vim-style navigation, C-o prefix
 │   └── .amethyst.yml        # Tiling window manager config
 ├── reference/               # App-managed configs (backup/reference only)
@@ -42,8 +45,11 @@ VS Code configs in `reference/` are copied (not symlinked) since VS Code manages
 ### Key Tools Configured
 - **fzf**: Fuzzy finder with zsh integration
 - **kube-ps1**: Kubernetes context in prompt
-- **worktrunk**: Git worktree management + LLM commit messages
+- **worktrunk**: Git worktree management + LLM commit messages (via `claude-commit`)
 - **OrbStack**: Container runtime (Docker alternative)
+
+### Scripts (`~/.local/bin/`)
+- **claude-commit** - Generates commit messages using Claude CLI (haiku model). Reads prompt from stdin, outputs message. Used by worktrunk for `wt merge` and `wt step commit`.
 
 ### Git
 - SSH key: `~/.ssh/id_ed25519`
@@ -51,13 +57,21 @@ VS Code configs in `reference/` are copied (not symlinked) since VS Code manages
 - Pull: fast-forward only
 - HTTPS → SSH rewrite for github.com
 
-### Shell Functions (`.bash_aliases`)
-- `worktree [name]` - Create/switch git worktrees (fzf-powered)
-- `worktree-accept <branch> [target]` - Merge worktree branch and cleanup
+### Shell Functions
+
+Functions are organized in two locations:
+
+**`.bash_aliases`** - Small inline functions:
 - `rept <interval> <cmd>` - Repeat command with interval
 - `random_bytes [n]` - Generate random hex bytes
 - `mem <pattern>` - Find processes by memory usage
 - `gti` - Typo-tolerant git alias
+
+**`.bash_functions.d/*.sh`** - Modular functions by domain:
+- `docker.sh` - Docker utilities (`docker-rmi-none`)
+- `kubernetes.sh` - K8s utilities (`oom-finder`)
+
+The loader in `.bash_aliases` sources all `*.sh` files from `~/.bash_functions.d/`.
 
 ### Tmux
 - Prefix: `C-o` (not default C-b)
@@ -89,5 +103,13 @@ VS Code configs in `reference/` are copied (not symlinked) since VS Code manages
 - Environment variables go in `.zshenv` (loaded for all shells)
 - Interactive shell setup goes in `.zprofile`
 - Prompt and completion setup goes in `.zshrc`
-- Aliases and functions go in `.bash_aliases`
+- Aliases and small functions go in `.bash_aliases`
+- Larger functions go in `.bash_functions.d/<domain>.sh`
 - Secrets/keys go in `~/.keys.sh` (not tracked, sourced by `.zprofile`)
+
+## Adding New Functions
+
+1. Create `home/.bash_functions.d/<domain>.sh` (e.g., `aws.sh`, `git.sh`)
+2. Add functions to the file with a comment header
+3. Run `./setup.sh` - files are symlinked individually
+4. New shell sessions will auto-source the file
