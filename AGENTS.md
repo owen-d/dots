@@ -70,6 +70,7 @@ Functions are organized in two locations:
 **`.bash_functions.d/*.sh`** - Modular functions by domain:
 - `docker.sh` - Docker utilities (`docker-rmi-none`)
 - `kubernetes.sh` - K8s utilities (`oom-finder`)
+- `worktrunk.sh` - Worktrunk utilities (`wsc` - create worktree + launch Claude)
 
 The loader in `.bash_aliases` sources all `*.sh` files from `~/.bash_functions.d/`.
 
