@@ -14,5 +14,6 @@ wsc() {
     wt switch --create --execute=claude "$branch" -- \
         --allow-dangerously-skip-permissions \
         --permission-mode=bypassPermissions \
+        --chrome \
         "$@"
 }

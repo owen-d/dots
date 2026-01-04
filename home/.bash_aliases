@@ -7,9 +7,6 @@ fi
 
 alias kc='kubectl'
 
-# scatterbrain alias
-alias sb='scatterbrain'
-
 # fat fingers
 gti() {
   git $@
