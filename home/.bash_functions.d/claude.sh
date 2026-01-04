@@ -1,11 +1,11 @@
 # Claude utilities
 
 # Run Claude with permissions bypassed and Chrome MCP
-# Usage: cc [--continue] [<claude-args>...]
-cc() {
+# Usage: clc [--continue] [<claude-args>...]
+clc() {
     if [[ "$1" == "-h" || "$1" == "--help" ]]; then
         cat <<EOF
-Usage: cc [--continue] [<claude-args>...]
+Usage: clc [--continue] [<claude-args>...]
 
 Run Claude with permissions bypassed and Chrome MCP enabled.
 
