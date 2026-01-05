@@ -10,6 +10,18 @@
 [commit-generation]
 command = "claude-commit"
 
+[projects]
+
+[projects."github.com/owen-d/mono"]
+approved-commands = [
+    """
+[ -d {{ main_worktree_path }}/target/debug/deps ] && [ ! -e target ] &&
+mkdir -p target/debug/deps &&
+cp -c {{ main_worktree_path }}/target/debug/deps/*.rlib {{ main_worktree_path }}/target/debug/deps/*.rmeta target/debug/deps/ &&
+cp -cR {{ main_worktree_path }}/target/debug/.fingerprint {{ main_worktree_path }}/target/debug/build target/debug/
+""",
+]
+
 # Optional: Load template from file (mutually exclusive with 'template')
 # Supports ~ expansion: ~/.config/worktrunk/commit-template.txt
 # template-file = "~/.config/worktrunk/commit-template.txt"
