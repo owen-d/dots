@@ -1,5 +1,11 @@
 # Claude utilities
 
+# Common flags for Claude invocations
+CLAUDE_BASE_FLAGS=(
+    --allow-dangerously-skip-permissions
+    --permission-mode=bypassPermissions
+    --chrome
+)
 
 # Run Claude with permissions bypassed and Chrome MCP
 # Usage: clc [--continue] [<claude-args>...]
@@ -24,12 +30,7 @@ EOF
         shift
     fi
 
-    claude \
-        --allow-dangerously-skip-permissions \
-        --permission-mode=bypassPermissions \
-        --chrome \
-        $continue_flag \
-        "$@"
+    claude "${CLAUDE_BASE_FLAGS[@]}" $continue_flag "$@"
 }
 
 # Orchestrator workflow diagram
@@ -217,10 +218,7 @@ Keep explanations succinct. The goal is orientation, not documentation.
 '
     local orchestrator_prompt="${prompt_p1}${CLCO_WORKFLOW_DIAGRAM}${prompt_p2}"
 
-    claude \
-        --allow-dangerously-skip-permissions \
-        --permission-mode=bypassPermissions \
-        --chrome \
+    claude "${CLAUDE_BASE_FLAGS[@]}" \
         --append-system-prompt "$orchestrator_prompt" \
         $continue_flag \
         "$@"
