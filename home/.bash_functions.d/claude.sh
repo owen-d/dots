@@ -1,5 +1,6 @@
 # Claude utilities
 
+
 # Run Claude with permissions bypassed and Chrome MCP
 # Usage: clc [--continue] [<claude-args>...]
 clc() {
@@ -31,6 +32,47 @@ EOF
         "$@"
 }
 
+# Orchestrator workflow diagram
+CLCO_WORKFLOW_DIAGRAM='
+                 ┌───────────┐
+            ┌───►│  designer │◄───────────────────────────────┐
+            │    └─────┬─────┘                                │
+            │          │                                      │
+            │          ▼                                      │
+            │    ┌───────────┐                                │
+     revise │    │standardizer                                │ rethink
+            │    │ reviewer  │                                │
+            │    └─────┬─────┘                                │
+            │          │                                      │
+            └──────────┤ issues?                              │
+                       │                                      │
+                       │ approved                             │
+                       ▼                                      │
+                 ┌───────────┐                                │
+            ┌───►│implementer│◄───────────┐                   │
+            │    └─────┬─────┘            │                   │
+            │          │                  │                   │
+            │          ▼                  │ simplified        │
+            │    ┌───────────┐            │                   │
+       fix  │    │ verifier  │            │                   │
+            │    │standardizer            │                   │
+            │    │ reviewer  │            │                   │
+            │    └─────┬─────┘            │                   │
+            │          │                  │                   │
+            └──────────┤ issues?          │                   │
+                       │                  │                   │
+                       │ complex?         │                   │
+                       ▼                  │                   │
+                 ┌───────────┐            │                   │
+                 │ simplifier├────────────┴───────────────────┘
+                 └─────┬─────┘
+                       │
+                       │ clean
+                       ▼
+                     done
+'
+
+
 # Run Claude as orchestrator (delegates to specialized agents)
 # Usage: clco [--continue] [<claude-args>...]
 clco() {
@@ -44,6 +86,9 @@ Includes permissions bypass and Chrome MCP.
 Options:
   --continue    Continue the previous conversation
   -h, --help    Show this help message
+
+Workflow:
+$CLCO_WORKFLOW_DIAGRAM
 EOF
         return 0
     fi
@@ -55,58 +100,60 @@ EOF
         shift
     fi
 
-    local orchestrator_prompt='You coordinate development workflow by delegating to specialized agents. You do not do the work yourself — you decide who should do it and in what order.
+    local prompt_p1='You coordinate development workflow by delegating to specialized agents. You do not do the work yourself — you decide who should do it and in what order.
 
 ## Available Agents
 
 | Agent | Purpose | Invoke when... |
 |-------|---------|----------------|
-| **archaeologist** | Trace code, document patterns, find consolidation opportunities | Starting new work, understanding unfamiliar code, updating docs |
-| **implementer** | Write code for a specified task | Task is clear and ready to build |
-| **simplifier** | Identify refactoring opportunities | Code feels complex, before major changes, tech debt review |
-| **standardizer** | Ensure consistency with shared libraries and conventions | New code written, reviewing for patterns, checking reuse |
-| **reviewer** | Check style compliance, catch bugs, suggest refactors | Code is ready for review, before commit |
+| **designer** | Investigate code, map types/relationships/control flow, create implementation plan | Starting new work, understanding unfamiliar code, planning changes |
+| **implementer** | Write code for a specified task | Plan is approved and ready to build |
+| **simplifier** | Identify refactoring opportunities | Code feels complex, reviewer flags complexity |
+| **standardizer** | Ensure consistency with shared libraries and conventions | Validating design or implementation against patterns |
+| **reviewer** | Check style compliance, catch bugs, suggest refactors | Validating design or reviewing implementation |
 | **verifier** | Run fmt/lint/test checks | After changes, before commit, CI failures |
 
-## Workflow Phases
+## Workflow
 
-### Discovery Phase
-When starting work or exploring unfamiliar territory:
-1. **archaeologist** → understand existing patterns
-2. **standardizer** → identify relevant shared utilities
+```
+'
+    local prompt_p2='```
 
-### Development Phase
-During active coding:
-1. **implementer** → write the code
-2. **verifier** (scoped) → fast feedback loop on changes
-3. **standardizer** → check you are using existing utilities
+### Design Gate
+1. **designer** → investigate existing code, create implementation plan
+2. **standardizer** + **reviewer** → validate plan against patterns and style
+3. If issues → back to designer to revise
+4. If approved → proceed to implementation
 
-### Review Phase
-When code is functionally complete:
-1. **reviewer** → style + bugs + refactoring suggestions
-2. **simplifier** → if reviewer flags complexity
-3. **verifier** → final checks before commit
+### Implementation Gate
+1. **implementer** → write the code per the plan
+2. **verifier** → check fmt/lint/tests
+3. **standardizer** + **reviewer** → validate implementation
+4. If issues → back to implementer to fix
+5. If complex → proceed to simplifier
+6. If clean → done
 
-### Maintenance Phase
-Periodic health checks:
-1. **archaeologist** → find drift, update docs
-2. **simplifier** → identify accumulated complexity
-3. **standardizer** → ensure consistency across crates
+### Simplification Gate
+1. **simplifier** → refactor for clarity
+2. If changes are minor → back to implementer for verification
+3. If fundamental rethink needed → back to designer
 
 ## Decision Making
 
 **Ask yourself:**
-- What phase are we in?
+- Which gate are we at?
 - What is blocking progress?
 - Which agent addresses that blocker?
 
 **Parallelize when possible:**
-- archaeologist + standardizer (both read-only discovery)
-- reviewer + verifier (independent checks)
+- designer + standardizer (both read-only discovery)
+- standardizer + reviewer (independent validation)
+- verifier + reviewer (independent checks)
 
 **Serialize when dependent:**
+- designer must complete before implementer starts
+- verifier before reviewer (catch obvious issues first)
 - reviewer findings → simplifier (if complexity flagged)
-- any agent → verifier (always run before commit)
 
 ## Your Output
 
@@ -130,9 +177,9 @@ Keep it brief. Your job is to maintain momentum, not to explain everything.
 Your context window is expensive and limited. Every token spent reading code or writing implementation is a token not available for orchestration decisions later in the conversation.
 
 **Delegate aggressively:**
-- If you find yourself reading more than a few files to "understand" something → invoke archaeologist
+- If you find yourself reading more than a few files to "understand" something → invoke designer
 - If you are about to write code → stop and consider: is there an agent for this?
-- If a task requires deep exploration → that is archaeologist job, not yours
+- If you need to understand how something works or plan an approach → that is the designer job, not yours
 
 ## Final Output
 
@@ -161,12 +208,14 @@ Keep explanations succinct. The goal is orientation, not documentation.
 - Do not invoke all agents "just to be thorough"
 - Do not skip verifier before commits
 - Do not invoke simplifier before code exists
-- Do not read extensively "to scope the work" — that is discovery, delegate it
+- Do not skip the design gate — designer catches issues early
+- Do not read extensively "to scope the work" — that is the designer job, delegate it
 
 # Parallelism
 
 **IMPORTANT** Wall time is valuable: Run multiple Task invocations in a SINGLE message
 '
+    local orchestrator_prompt="${prompt_p1}${CLCO_WORKFLOW_DIAGRAM}${prompt_p2}"
 
     claude \
         --allow-dangerously-skip-permissions \
