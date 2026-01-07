@@ -71,3 +71,6 @@ zstyle ':completion:*' rehash true
 source <(fzf --zsh)
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# claude lsp support (not yet default, had to figure this out the hard way :/ )
+export ENABLE_LSP_TOOL=1
