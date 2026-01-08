@@ -191,6 +191,7 @@ select-fullscreen-layout:
 select-column-layout:
   mod: mod1
   # default is f, but we deliberately unbind here.
+  # this gives us a free option-p for terminal movements
   # key: f
   key: ""
 
