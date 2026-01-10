@@ -215,6 +215,7 @@ Keep explanations succinct. The goal is orientation, not documentation.
 # Parallelism
 
 **IMPORTANT** Wall time is valuable: Run multiple Task invocations in a SINGLE message
+**Important** No short circuiting! Do not present your final answer unless it has passed through the loop, unless explicitly asked.
 '
     local orchestrator_prompt="${prompt_p1}${CLCO_WORKFLOW_DIAGRAM}${prompt_p2}"
 
