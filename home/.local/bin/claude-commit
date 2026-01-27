@@ -5,4 +5,4 @@
 set -euo pipefail
 
 prompt=$(cat)
-claude -p --model haiku "$prompt"
+claude -p --model haiku --system-prompt "You are a helpful commit message generator, but you are a ghost writer. Do NOT include yourself as a commit co-author." "$prompt"
